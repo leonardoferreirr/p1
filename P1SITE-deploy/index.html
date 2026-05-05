@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>P1 Marketing — Sua empresa em primeiro lugar.</title>
+<meta name="description" content="P1 Marketing — agência de performance em Uberlândia. Estratégia, landing, criativo, tráfego, conteúdo e resultado. Pole position pra sua marca." />
+<meta name="theme-color" content="#1F1F1F" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="P1 Marketing — Sua empresa em primeiro lugar" />
+<meta property="og:description" content="Estratégia, criativo, tráfego e conteúdo. Pole position pra sua marca." />
+
+<style>
+/* ════════════════════════════════════════════════════════════════════════
+   FONTES
+════════════════════════════════════════════════════════════════════════ */
+@font-face { font-family:'Syncopate'; src:url('./assets/Syncopate-Bold.ttf') format('truetype'); font-weight:700; font-display:swap; }
+@font-face { font-family:'Syncopate'; src:url('./assets/Syncopate-Regular.ttf') format('truetype'); font-weight:400; font-display:swap; }
+@font-face { font-family:'Inter'; src:url('./assets/Inter-VariableFont_opsz,wght.ttf') format('truetype'); font-weight:100 900; font-display:swap; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   PALETA P1 RACING
+════════════════════════════════════════════════════════════════════════ */
+:root{
+  --ink:#1F1F1F;
+  --ink-deep:#0F0F0F;
+  --ink-soft:#2A2A2A;
+  --green:#0D390A;
+  --green-mid:#155014;
+  --green-glow:#89F336;
+  --bone:#FFFFFF;
+  --bone-soft:rgba(255,255,255,0.72);
+  --bone-mute:rgba(255,255,255,0.45);
+  --line:rgba(255,255,255,0.08);
+  --line-green:rgba(137,243,54,0.18);
+
+  --font-h:'Syncopate', sans-serif;
+  --font-b:'Inter', sans-serif;
+
+  --r-pill:999px;
+  --r-md:14px;
+  --r-lg:24px;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   RESET
+════════════════════════════════════════════════════════════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--ink);
+  color:var(--bone);
+  font-family:var(--font-b);
+  font-weight:300;
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  cursor:none;
+}
+::selection{background:var(--green-glow);color:var(--ink-deep)}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--ink-deep)}
+::-webkit-scrollbar-thumb{background:rgba(137,243,54,0.25);border-radius:var(--r-pill)}
+a{color:inherit;text-decoration:none}
+img,svg{display:block;max-width:100%}
+button{font-family:inherit;border:0;background:none;cursor:none;color:inherit}
+input,select,textarea{font-family:inherit;color:inherit}
+h1,h2,h3,h4{font-family:var(--font-h);color:var(--bone);text-transform:uppercase;line-height:1.02;letter-spacing:-1.2px;font-weight:700}
+
+/* ════════════════════════════════════════════════════════════════════════
+   CURSOR
+════════════════════════════════════════════════════════════════════════ */
+.cursor-dot,.cursor-ring{
+  position:fixed;top:0;left:0;pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+}
+.cursor-dot{
+  width:6px;height:6px;background:var(--green-glow);border-radius:50%;
+  box-shadow:0 0 12px var(--green-glow);
+  transition:transform .2s var(--ease),background .2s;
+}
+.cursor-ring{
+  width:36px;height:36px;border:1.4px solid rgba(137,243,54,0.7);border-radius:50%;
+  transition:width .35s var(--ease),height .35s var(--ease),border-color .3s;
+}
+.cursor-ring.is-active{width:72px;height:72px;border-color:var(--green-glow)}
+@media (pointer:coarse){
+  .cursor-dot,.cursor-ring{display:none}
+  body,button,input,select,a{cursor:auto}
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   AMBIENT BG
+════════════════════════════════════════════════════════════════════════ */
+.amb{position:fixed;inset:0;z-index:-20;overflow:hidden;pointer-events:none}
+.amb::before,.amb::after{
+  content:'';position:absolute;border-radius:50%;filter:blur(120px);opacity:.55;
+  will-change:transform;
+}
+.amb::before{
+  top:-15%;left:-12%;width:60vw;height:60vw;
+  background:radial-gradient(circle,rgba(13,57,10,.55),transparent 70%);
+  animation:ambDrift1 32s ease-in-out infinite alternate;
+}
+.amb::after{
+  bottom:-20%;right:-12%;width:55vw;height:55vw;
+  background:radial-gradient(circle,rgba(137,243,54,.07),transparent 70%);
+  animation:ambDrift2 38s ease-in-out infinite alternate;
+}
+@keyframes ambDrift1{0%{transform:translate(0,0) scale(1)}100%{transform:translate(8vw,6vh) scale(1.08)}}
+@keyframes ambDrift2{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-6vw,-4vh) scale(.94)}}
+
+/* Grid radial sutil sobre o ink (tipo overlay de pista) */
+.amb-grid{
+  position:fixed;inset:0;z-index:-19;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 40%,#000 0%,transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 40%,#000 0%,transparent 75%);
+}
+
+/* Noise sutil */
+.amb-noise{
+  position:fixed;inset:0;z-index:-18;pointer-events:none;opacity:.04;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.6'/></svg>");
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   LOADER (3.2.1.GO)
+════════════════════════════════════════════════════════════════════════ */
+.loader{
+  position:fixed;inset:0;z-index:9000;background:var(--ink-deep);
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .8s var(--ease),visibility .8s;
+}
+.loader.is-done{opacity:0;visibility:hidden}
+.loader__num{
+  font-family:var(--font-h);font-weight:700;font-size:clamp(5rem,16vw,16rem);
+  color:var(--bone);line-height:1;letter-spacing:-4px;
+  display:flex;align-items:center;gap:.4em;
+}
+.loader__num span{
+  display:inline-block;opacity:0;transform:translateY(20px) scale(.9);
+  animation:loaderTick .55s var(--ease) forwards;
+}
+.loader__num span:nth-child(1){animation-delay:.05s}
+.loader__num span:nth-child(2){animation-delay:.55s}
+.loader__num span:nth-child(3){animation-delay:1.05s}
+.loader__num span:nth-child(4){animation-delay:1.55s;color:var(--green-glow);text-shadow:0 0 30px var(--green-glow)}
+@keyframes loaderTick{
+  0%{opacity:0;transform:translateY(20px) scale(.9)}
+  60%{opacity:1;transform:translateY(0) scale(1.05)}
+  100%{opacity:1;transform:translateY(0) scale(1)}
+}
+.loader__line{
+  position:absolute;bottom:0;left:0;height:2px;width:0;background:var(--green-glow);
+  box-shadow:0 0 16px var(--green-glow);
+  animation:loaderLine 2s var(--ease) forwards;
+}
+@keyframes loaderLine{to{width:100%}}
+
+/* ════════════════════════════════════════════════════════════════════════
+   NAV
+════════════════════════════════════════════════════════════════════════ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.2rem clamp(1.2rem,3vw,2.5rem);
+  background:linear-gradient(180deg,rgba(31,31,31,0.85),rgba(31,31,31,0));
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  transition:background .4s var(--ease),padding .4s var(--ease),border-color .4s var(--ease);
+  border-bottom:1px solid transparent;
+}
+.nav.is-scrolled{
+  padding-top:.7rem;padding-bottom:.7rem;
+  background:rgba(15,15,15,0.88);
+  border-bottom-color:var(--line-green);
+}
+.nav__logo{
+  display:inline-flex;align-items:center;
+  height:30px;
+}
+.nav__logo img{
+  height:100%;width:auto;display:block;
+  transition:transform .3s var(--ease);
+}
+.nav__logo:hover img{transform:scale(1.04)}
+.nav.is-scrolled .nav__logo{height:24px}
+.nav__cta{
+  display:inline-flex;align-items:center;gap:.55rem;
+  padding:.7rem 1.2rem;border-radius:var(--r-pill);
+  background:var(--green-glow);color:var(--ink-deep);
+  font-family:var(--font-b);font-size:.78rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  box-shadow:0 8px 24px rgba(137,243,54,.25);
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+}
+.nav__cta:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(137,243,54,.4)}
+
+/* Top scroll bar */
+.progress{
+  position:fixed;top:0;left:0;height:2px;width:100%;
+  background:linear-gradient(90deg,var(--green),var(--green-glow));
+  transform:scaleX(0);transform-origin:left;z-index:101;
+  transition:transform .1s linear;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   HERO — sticky scroll-driven frame sequence
+════════════════════════════════════════════════════════════════════════ */
+.hero{
+  position:relative;
+  width:100%;
+  height:400vh; /* 300vh pra video + 100vh pra zoom-in da secao 2 */
+  z-index:2;
+}
+.hero__sticky{
+  position:sticky;top:0;
+  width:100%;height:100vh;
+  overflow:hidden;
+  isolation:isolate;
+}
+.hero__canvas{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  z-index:1;
+  opacity:.85;
+}
+/* Gradient + grain over video */
+.hero__sticky::before{
+  content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(15,15,15,.55) 0%,rgba(15,15,15,.15) 30%,rgba(15,15,15,.55) 70%,rgba(15,15,15,.95) 100%),
+    radial-gradient(ellipse 80% 80% at 50% 50%,transparent 30%,rgba(31,31,31,.45) 100%);
+}
+.hero__sticky::after{
+  content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(135deg,rgba(13,57,10,.18) 0%,transparent 35%,transparent 65%,rgba(13,57,10,.18) 100%);
+  mix-blend-mode:screen;
+}
+
+.hero__content{
+  position:absolute;inset:0;z-index:5;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:0 clamp(1.2rem,4vw,3rem);
+}
+.hero__kicker{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-family:var(--font-h);font-size:.74rem;font-weight:400;
+  letter-spacing:.42em;text-transform:uppercase;color:var(--green-glow);
+  padding:.55rem 1.1rem;border:1px solid var(--line-green);border-radius:var(--r-pill);
+  background:rgba(137,243,54,.06);backdrop-filter:blur(4px);
+  margin-bottom:1.6rem;
+}
+.hero__kicker::before{
+  content:'';display:inline-block;width:6px;height:6px;border-radius:50%;
+  background:var(--green-glow);box-shadow:0 0 10px var(--green-glow);
+  animation:livePulse 1.4s ease-in-out infinite;
+}
+@keyframes livePulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+.hero__title{
+  font-family:var(--font-h);font-weight:700;
+  font-size:clamp(2.6rem,8vw,8.5rem);
+  line-height:.92;letter-spacing:-2px;
+  text-transform:uppercase;color:var(--bone);
+  text-shadow:0 4px 40px rgba(0,0,0,.6);
+  max-width:14ch;
+}
+.hero__title em{
+  font-style:normal;
+  background:linear-gradient(135deg,var(--green-glow) 0%,#cfff80 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 28px rgba(137,243,54,.45));
+}
+.hero__sub{
+  font-family:var(--font-b);font-size:clamp(.95rem,1.3vw,1.18rem);
+  color:var(--bone-soft);max-width:50ch;line-height:1.6;
+  margin-top:1.4rem;font-weight:300;
+}
+
+.hero__bottom{
+  position:absolute;left:0;right:0;bottom:1.6rem;z-index:5;
+  display:flex;justify-content:space-between;align-items:flex-end;
+  padding:0 clamp(1.2rem,4vw,3rem);
+  font-family:var(--font-h);font-size:.7rem;letter-spacing:.32em;
+  color:var(--bone-mute);text-transform:uppercase;
+}
+.hero__bottom-cell{display:flex;flex-direction:column;gap:.3rem}
+.hero__bottom-cell strong{font-family:var(--font-h);font-size:1.6rem;color:var(--bone);letter-spacing:-1px}
+.hero__bottom .scroll-cue{
+  display:inline-flex;flex-direction:column;align-items:center;gap:.5rem;color:var(--green-glow);
+}
+.hero__bottom .scroll-cue::after{
+  content:'';width:1px;height:32px;background:linear-gradient(var(--green-glow),transparent);
+  animation:scrollPulse 1.6s ease-in-out infinite;
+}
+@keyframes scrollPulse{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1)}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* Hero copy fades em fases conforme scroll progride */
+.hero__phase{transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.hero__phase.is-out{opacity:0;transform:translateY(-12px)}
+
+/* ════════════════════════════════════════════════════════════════════════
+   SECTION BASE
+════════════════════════════════════════════════════════════════════════ */
+.section{
+  position:relative;
+  padding:clamp(5rem,12vh,9rem) clamp(1.2rem,4vw,3rem);
+  z-index:2;
+}
+.section__inner{max-width:1280px;margin:0 auto}
+.section__head{display:flex;flex-direction:column;gap:1rem;max-width:780px;margin-bottom:3rem;align-items:flex-start;text-align:left}
+.section__head.center{margin:0 auto 3rem;text-align:center;align-items:center}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-family:var(--font-h);font-size:.7rem;font-weight:400;
+  letter-spacing:.42em;text-transform:uppercase;color:var(--green-glow);
+  padding:.45rem .9rem;border:1px solid var(--line-green);border-radius:var(--r-pill);
+  background:rgba(137,243,54,.05);width:fit-content;
+}
+.eyebrow::before{
+  content:'';display:inline-block;width:5px;height:5px;border-radius:50%;
+  background:var(--green-glow);box-shadow:0 0 8px var(--green-glow);
+}
+
+.section__title{
+  font-family:var(--font-h);font-weight:700;
+  font-size:clamp(2.1rem,5.2vw,4.6rem);
+  line-height:.98;letter-spacing:-1.6px;text-transform:uppercase;
+}
+.section__title em{
+  font-style:normal;
+  background:linear-gradient(135deg,var(--green-glow) 0%,#cfff80 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.section__sub{
+  font-family:var(--font-b);font-size:clamp(1rem,1.2vw,1.1rem);
+  color:var(--bone-soft);font-weight:300;line-height:1.65;max-width:60ch;
+}
+
+/* Reveal universal */
+.reveal{opacity:0;transform:translateY(28px) scale(.99);filter:blur(6px);transition:opacity 1s var(--ease),transform 1s var(--ease),filter .8s var(--ease)}
+.reveal.is-visible{opacity:1;transform:none;filter:blur(0)}
+
+/* ════════════════════════════════════════════════════════════════════════
+   MARQUEE BENEFICIOS (entre hero e manifesto)
+════════════════════════════════════════════════════════════════════════ */
+.marquee{
+  position:relative;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  overflow:hidden;background:var(--ink-deep);padding:1.2rem 0;
+}
+.marquee__track{
+  display:flex;gap:3rem;width:max-content;
+  animation:marqueeRun 36s linear infinite;
+  white-space:nowrap;
+}
+.marquee span{
+  font-family:var(--font-h);font-size:1rem;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--bone);display:inline-flex;align-items:center;gap:1.6rem;
+}
+.marquee span::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--green-glow);box-shadow:0 0 10px var(--green-glow)}
+@keyframes marqueeRun{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ════════════════════════════════════════════════════════════════════════
+   MANIFESTO / PAIN
+════════════════════════════════════════════════════════════════════════ */
+.manifesto__big{
+  font-family:var(--font-h);font-weight:700;
+  font-size:clamp(1.8rem,4.6vw,4rem);
+  line-height:1.04;letter-spacing:-1.4px;
+  text-transform:uppercase;max-width:22ch;
+}
+.manifesto__big em{
+  font-style:normal;color:var(--green-glow);
+}
+.manifesto__big s{
+  text-decoration:line-through;text-decoration-color:rgba(255,255,255,.35);
+  color:var(--bone-mute);
+}
+.manifesto__lede{
+  font-family:var(--font-b);font-size:1.05rem;color:var(--bone-soft);
+  line-height:1.7;max-width:54ch;margin-top:1.6rem;font-weight:300;
+}
+
+/* Floating words (BG decorativo) */
+.float-words{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.float-word{
+  position:absolute;
+  font-family:var(--font-h);font-weight:400;text-transform:uppercase;
+  letter-spacing:.08em;color:rgba(255,255,255,.04);
+  font-size:clamp(2rem,5vw,5rem);white-space:nowrap;
+  animation:floatDrift 22s ease-in-out infinite alternate;
+}
+.float-word:nth-child(1){top:8%;left:-3%;animation-delay:0s}
+.float-word:nth-child(2){top:42%;right:-4%;animation-delay:-7s}
+.float-word:nth-child(3){bottom:18%;left:5%;animation-delay:-14s}
+.float-word:nth-child(4){top:65%;right:14%;animation-delay:-4s;font-size:clamp(1.4rem,3vw,2.6rem)}
+.float-word:nth-child(5){top:25%;left:38%;animation-delay:-10s;font-size:clamp(1.4rem,3vw,2.6rem)}
+@keyframes floatDrift{0%{transform:translate(0,0)}100%{transform:translate(20px,-16px)}}
+
+/* ════════════════════════════════════════════════════════════════════════
+   STAGES — GRID 2-COL: titulo sticky a esquerda, cards stack a direita
+════════════════════════════════════════════════════════════════════════ */
+.stages-section{padding-bottom:0}
+.stages-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:clamp(2rem,5vw,5rem);
+  align-items:start;
+}
+.stages-title{
+  position:sticky;
+  top:14vh;
+  align-self:start;
+  display:flex;flex-direction:column;gap:1rem;
+  max-width:520px;
+}
+.stages-title .section__title{font-size:clamp(2rem,4.4vw,3.8rem)}
+.stack-cards{
+  position:relative;
+  display:flex;flex-direction:column;
+  gap:0;
+  padding-bottom:14vh;
+}
+.stack-card{
+  position:sticky;
+  margin:0 0 4vh;
+  padding:clamp(1.4rem,2.2vw,2rem);
+  background:linear-gradient(135deg,rgba(13,57,10,.92) 0%,rgba(8,32,6,.95) 60%,rgba(15,15,15,.95) 100%);
+  border:1px solid var(--line-green);
+  border-radius:22px;
+  display:flex;flex-direction:column;
+  gap:1.2rem;
+  isolation:isolate;
+  overflow:hidden;
+  box-shadow:0 24px 48px rgba(0,0,0,.55), 0 0 40px rgba(137,243,54,.06);
+}
+.stack-card::before{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 70% at 90% 100%,rgba(137,243,54,.16),transparent 60%),
+    radial-gradient(ellipse 50% 50% at 10% 0%,rgba(137,243,54,.08),transparent 60%);
+}
+.stack-card > *{position:relative;z-index:2}
+/* Sticky offset crescente - efeito de empilhar */
+.stack-card[data-step="01"]{top:14vh}
+.stack-card[data-step="02"]{top:16vh}
+.stack-card[data-step="03"]{top:18vh}
+.stack-card[data-step="04"]{top:20vh}
+.stack-card[data-step="05"]{top:22vh}
+.stack-card[data-step="06"]{top:24vh;margin-bottom:0}
+.stack-card__copy{display:flex;flex-direction:column;gap:.7rem}
+.stack-card__num{
+  font-family:var(--font-h);font-size:clamp(2rem,3.4vw,3rem);line-height:1;
+  background:linear-gradient(180deg,var(--green-glow),#7adb22 70%,var(--green));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  letter-spacing:-2px;font-weight:700;
+}
+.stack-card__title{
+  font-family:var(--font-h);font-weight:700;font-size:clamp(1.1rem,1.7vw,1.6rem);
+  line-height:1.1;letter-spacing:-.5px;text-transform:uppercase;color:var(--bone);
+}
+.stack-card__title em{font-style:normal;color:var(--green-glow);text-shadow:0 0 18px rgba(137,243,54,.3)}
+.stack-card__text{font-size:.92rem;color:var(--bone-soft);line-height:1.6;font-weight:300}
+
+/* Media visual abaixo da copy */
+.stack-card__viz{
+  position:relative;
+  width:100%;aspect-ratio:16/8;
+  background:rgba(15,15,15,.55);
+  border:1px solid var(--line-green);border-radius:14px;
+  display:grid;place-items:center;
+  overflow:hidden;isolation:isolate;
+  padding:clamp(1rem,2vw,1.6rem);
+}
+.stack-card__viz::before{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 50%,rgba(137,243,54,.14),transparent 65%);
+}
+.stack-card__viz > *{position:relative;z-index:2;width:100%}
+
+/* Visual: telemetria/dados (Estratégia) */
+.viz-grid-bars{
+  display:grid;grid-template-columns:repeat(8,1fr);gap:6px;
+  align-items:end;width:100%;height:100%;
+}
+.viz-grid-bars span{
+  display:block;background:linear-gradient(180deg,var(--green-glow),var(--green));
+  border-radius:3px 3px 0 0;
+  animation:barRise 2.4s ease-in-out infinite;opacity:.9;
+}
+.viz-grid-bars span:nth-child(1){height:30%;animation-delay:0s}
+.viz-grid-bars span:nth-child(2){height:55%;animation-delay:.1s}
+.viz-grid-bars span:nth-child(3){height:42%;animation-delay:.2s}
+.viz-grid-bars span:nth-child(4){height:75%;animation-delay:.3s}
+.viz-grid-bars span:nth-child(5){height:60%;animation-delay:.4s}
+.viz-grid-bars span:nth-child(6){height:88%;animation-delay:.5s}
+.viz-grid-bars span:nth-child(7){height:70%;animation-delay:.6s}
+.viz-grid-bars span:nth-child(8){height:95%;animation-delay:.7s}
+@keyframes barRise{0%,100%{transform:scaleY(.9);transform-origin:bottom}50%{transform:scaleY(1.04);transform-origin:bottom}}
+
+/* Visual: wireframe landing */
+.viz-wire{display:flex;flex-direction:column;gap:8px;width:100%}
+.viz-wire span{
+  display:block;height:14px;border-radius:3px;
+  background:linear-gradient(90deg,rgba(137,243,54,.4),rgba(255,255,255,.2));
+}
+.viz-wire span:nth-child(1){width:58%;background:var(--green-glow);height:22px}
+.viz-wire span:nth-child(2){width:90%}
+.viz-wire span:nth-child(3){width:80%}
+.viz-wire span:nth-child(4){width:62%;height:36px;background:rgba(137,243,54,.65);border-radius:8px}
+
+/* Visual: REC badge (captação) */
+.viz-rec{
+  display:flex;align-items:center;gap:1rem;
+  padding:.8rem 1.4rem;border:1.5px solid var(--green-glow);border-radius:var(--r-pill);
+  font-family:var(--font-h);letter-spacing:.36em;font-size:1rem;color:var(--bone);
+  background:rgba(15,15,15,.7);
+}
+.viz-rec::before{
+  content:'';display:inline-block;width:14px;height:14px;border-radius:50%;
+  background:#ff3344;box-shadow:0 0 16px #ff3344;
+  animation:livePulse 1.2s ease-in-out infinite;
+}
+.viz-rec-frame{
+  position:absolute;inset:8%;border:1.5px solid rgba(137,243,54,.45);
+  border-radius:8px;
+  pointer-events:none;
+}
+.viz-rec-frame::before,.viz-rec-frame::after{
+  content:'';position:absolute;width:18px;height:18px;border:2px solid var(--green-glow);
+}
+.viz-rec-frame::before{top:-2px;left:-2px;border-right:0;border-bottom:0}
+.viz-rec-frame::after{bottom:-2px;right:-2px;border-left:0;border-top:0}
+
+/* Visual: KPI counters (tráfego) */
+.viz-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;width:100%}
+.viz-kpis div{
+  text-align:center;padding:.9rem .5rem;
+  background:rgba(15,15,15,.55);border:1px solid var(--line-green);border-radius:8px;
+}
+.viz-kpis div strong{
+  display:block;font-family:var(--font-h);font-size:1.75rem;color:var(--green-glow);
+  letter-spacing:-1px;line-height:1;
+}
+.viz-kpis div span{
+  font-size:.65rem;letter-spacing:.24em;color:var(--bone-mute);text-transform:uppercase;
+  font-family:var(--font-h);
+}
+
+/* Visual: feed grid (conteúdo) */
+.viz-feed{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:100%}
+.viz-feed div{
+  aspect-ratio:1;border-radius:3px;
+  background:linear-gradient(135deg,rgba(13,57,10,.6),rgba(15,15,15,.7));
+  border:1px solid var(--line-green);
+  display:grid;place-items:center;font-family:var(--font-h);font-size:.6rem;letter-spacing:.18em;color:var(--bone-mute);
+}
+.viz-feed div:nth-child(2),.viz-feed div:nth-child(5){background:linear-gradient(135deg,rgba(137,243,54,.5),rgba(13,57,10,.6));color:var(--ink-deep)}
+
+/* Visual: dashboard (resultado) */
+.viz-dash{display:flex;flex-direction:column;gap:.7rem;width:100%}
+.viz-dash div{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:.6rem .9rem;background:rgba(15,15,15,.55);border:1px solid var(--line-green);border-radius:6px;
+  font-family:var(--font-h);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;
+}
+.viz-dash div span:first-child{color:var(--bone-mute)}
+.viz-dash div span:last-child{color:var(--green-glow);font-size:.95rem;letter-spacing:-.5px}
+
+/* ════════════════════════════════════════════════════════════════════════
+   PISTA INTERLAGOS + RIDERS NO PATH
+════════════════════════════════════════════════════════════════════════ */
+.track{
+  position:relative;padding:clamp(5rem,12vh,10rem) 1.2rem;
+  overflow:hidden;
+}
+.track__layout{
+  display:grid;
+  grid-template-columns:1fr 1.15fr;
+  gap:clamp(2rem,5vw,5rem);
+  align-items:center;
+  margin-bottom:clamp(3rem,6vh,5rem);
+}
+.track__head{display:flex;flex-direction:column;gap:1.2rem;text-align:left;align-items:flex-start;max-width:540px}
+.track__head .section__title{text-align:left}
+.track__stage{position:relative;width:100%;aspect-ratio:900/547;display:grid;place-items:center}
+.track__svg-wrap{
+  position:relative;width:100%;height:100%;
+  filter:drop-shadow(0 0 50px rgba(137,243,54,.20));
+}
+.track__svg{width:100%;height:100%;display:block;overflow:visible}
+.track__shape{
+  fill:rgba(137,243,54,.07);
+  stroke:var(--green-glow);
+  stroke-width:1.6;
+}
+/* Riders */
+.rider .rider__bg{
+  fill:var(--ink-deep);
+  stroke:var(--green-glow);stroke-width:2;
+  filter:drop-shadow(0 0 8px rgba(137,243,54,.55));
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   ZOOM REVEAL — sobreposto ao final do hero, abre do centro
+════════════════════════════════════════════════════════════════════════ */
+.zoom-reveal{
+  position:relative;
+  margin-top:-100vh;            /* sobrepoe os ultimos 100vh do hero */
+  z-index:5;                    /* fica POR CIMA do hero sticky */
+  clip-path:inset(50% 50% 50% 50%);
+  background:var(--ink);
+  will-change:clip-path;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   STATS RACE
+════════════════════════════════════════════════════════════════════════ */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(1rem,2vw,2rem);margin-top:3rem}
+.stat{
+  text-align:center;padding:2rem 1rem;border:1px solid var(--line);border-radius:var(--r-md);
+  background:linear-gradient(180deg,rgba(31,31,31,.6),rgba(15,15,15,.6));
+}
+.stat__num{
+  font-family:var(--font-h);font-weight:700;font-size:clamp(2.2rem,4.4vw,3.6rem);
+  background:linear-gradient(180deg,var(--green-glow),var(--green));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  letter-spacing:-1.5px;line-height:1;
+}
+.stat__lbl{
+  font-family:var(--font-h);font-size:.7rem;letter-spacing:.32em;color:var(--bone-mute);
+  text-transform:uppercase;margin-top:.6rem;line-height:1.4;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   CTA FINAL + FORM
+════════════════════════════════════════════════════════════════════════ */
+.cta{
+  text-align:center;
+  padding:clamp(5rem,12vh,9rem) 1.2rem;
+  background:radial-gradient(ellipse 60% 60% at 50% 0%,rgba(137,243,54,.08),transparent 70%);
+}
+.cta h2{
+  font-family:var(--font-h);font-weight:700;font-size:clamp(1.8rem,4.2vw,3.8rem);
+  line-height:.98;letter-spacing:-1.2px;text-transform:uppercase;max-width:20ch;margin:0 auto;
+}
+.cta h2 em{font-style:normal;background:linear-gradient(135deg,var(--green-glow),#cfff80);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cta p{margin:1.4rem auto 2.4rem;max-width:54ch;color:var(--bone-soft);font-size:1.05rem}
+
+.btn-primary{
+  display:inline-flex;align-items:center;gap:.8rem;
+  padding:1.2rem 2.4rem;border-radius:var(--r-pill);
+  background:var(--green-glow);color:var(--ink-deep);
+  font-family:var(--font-h);font-weight:700;font-size:.84rem;letter-spacing:.24em;
+  text-transform:uppercase;
+  box-shadow:0 12px 40px rgba(137,243,54,.35);
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease);
+}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 18px 50px rgba(137,243,54,.55)}
+.btn-primary svg{width:18px;height:14px}
+
+/* Form */
+.form{
+  max-width:760px;margin:3rem auto 0;
+  padding:clamp(2rem,4vw,3rem);
+  background:linear-gradient(180deg,rgba(31,31,31,.85),rgba(15,15,15,.95));
+  border:1px solid var(--line-green);border-radius:var(--r-lg);
+  backdrop-filter:blur(8px);
+  text-align:left;
+}
+.form__head{text-align:center;margin-bottom:2rem}
+.form__head h3{font-family:var(--font-h);font-size:clamp(1.4rem,2.6vw,2.2rem);text-transform:uppercase;letter-spacing:-.5px}
+.form__head p{margin-top:.6rem;color:var(--bone-soft);font-size:.95rem}
+.form__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.form__fld{display:flex;flex-direction:column;gap:.4rem}
+.form__fld.full{grid-column:1 / -1}
+.form__fld label{font-family:var(--font-h);font-size:.66rem;letter-spacing:.32em;color:var(--bone-mute);text-transform:uppercase}
+.form__fld input,.form__fld select{
+  padding:.85rem 1rem;background:rgba(15,15,15,.7);border:1px solid var(--line);border-radius:8px;
+  color:var(--bone);font-size:.95rem;font-family:var(--font-b);
+  transition:border-color .25s var(--ease),background .25s var(--ease);
+}
+.form__fld input:focus,.form__fld select:focus{
+  outline:none;border-color:var(--green-glow);background:rgba(137,243,54,.04);
+}
+.form__submit{
+  width:100%;margin-top:1.4rem;padding:1.1rem;
+  background:var(--green-glow);color:var(--ink-deep);
+  font-family:var(--font-h);font-weight:700;font-size:.84rem;letter-spacing:.24em;
+  text-transform:uppercase;border-radius:var(--r-pill);
+  box-shadow:0 8px 28px rgba(137,243,54,.3);
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+}
+.form__submit:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(137,243,54,.5)}
+.form__thanks{display:none;text-align:center;padding:2rem 1rem}
+.form__thanks h4{font-family:var(--font-h);font-size:1.4rem;color:var(--green-glow);margin-bottom:.6rem}
+.form__note{margin-top:1rem;text-align:center;font-size:.78rem;color:var(--bone-mute);letter-spacing:.16em;text-transform:uppercase;font-family:var(--font-h)}
+.form.is-sent .form__head,.form.is-sent .form__grid,.form.is-sent .form__submit{display:none}
+.form.is-sent .form__thanks{display:block}
+
+/* ════════════════════════════════════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════════════════════════════════════ */
+.footer{
+  border-top:1px solid var(--line);
+  padding:3rem 1.2rem 2rem;
+  text-align:center;
+  font-family:var(--font-h);font-size:.7rem;letter-spacing:.32em;
+  color:var(--bone-mute);text-transform:uppercase;
+}
+.footer__logo{
+  height:42px;width:auto;margin:0 auto 1.4rem;display:block;
+}
+.footer p{margin:0}
+.footer span{color:var(--green-glow)}
+
+/* ════════════════════════════════════════════════════════════════════════
+   RESPONSIVO
+════════════════════════════════════════════════════════════════════════ */
+@media (max-width:900px){
+  .hero{height:240vh}
+  .stages-grid{grid-template-columns:1fr;gap:2rem}
+  .stages-title{position:relative;top:auto;max-width:none}
+  .stack-card{padding:1.4rem;margin-bottom:6vh}
+  .stack-card__viz{aspect-ratio:5/3}
+  .stack-card[data-step="01"]{top:8vh}
+  .stack-card[data-step="02"]{top:9vh}
+  .stack-card[data-step="03"]{top:10vh}
+  .stack-card[data-step="04"]{top:11vh}
+  .stack-card[data-step="05"]{top:12vh}
+  .stack-card[data-step="06"]{top:13vh}
+  .track__layout{grid-template-columns:1fr;gap:2rem}
+  .track__head{text-align:center;align-items:center;max-width:none}
+  .track__head .section__title{text-align:center}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .form__grid{grid-template-columns:1fr}
+  .hero__bottom{display:none}
+  .nav__cta span{display:none}
+  .nav__cta::after{content:'INICIAR'}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s !important;transition-duration:.001s !important}
+}
+</style>
+</head>
+<body class="is-loading">
+
+<!-- ════════════════════════════════════════════ AMBIENTE ════════════════════════════════════════════ -->
+<div class="amb" aria-hidden="true"></div>
+<div class="amb-grid" aria-hidden="true"></div>
+<div class="amb-noise" aria-hidden="true"></div>
+
+<!-- ════════════════════════════════════════════ CURSOR ════════════════════════════════════════════ -->
+<div class="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div>
+
+<!-- ════════════════════════════════════════════ LOADER ════════════════════════════════════════════ -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__num">
+    <span>3</span><span>2</span><span>1</span><span>P1</span>
+  </div>
+  <div class="loader__line"></div>
+</div>
+
+<!-- ════════════════════════════════════════════ NAV ════════════════════════════════════════════ -->
+<nav class="nav" id="nav">
+  <a class="nav__logo" href="#hero" aria-label="P1 Marketing">
+    <img src="./assets/p1-logo-white.svg" alt="P1 Marketing" />
+  </a>
+  <a class="nav__cta" href="#cta"><span>Acelerar agora</span></a>
+</nav>
+<div class="progress" id="progress"></div>
+
+<!-- ════════════════════════════════════════════ HERO ════════════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero__sticky">
+    <canvas class="hero__canvas" id="heroCanvas"></canvas>
+
+    <div class="hero__content">
+      <div class="hero__phase" id="heroPhase">
+        <h1 class="hero__title">Sua empresa em <em>primeiro<br/>lugar.</em></h1>
+      </div>
+    </div>
+
+    <div class="hero__bottom">
+      <div class="hero__bottom-cell"><strong>P1</strong><span>Pole Position</span></div>
+      <div class="scroll-cue">scroll</div>
+      <div class="hero__bottom-cell" style="text-align:right"><strong>'26</strong><span>Temporada</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ MARQUEE ════════════════════════════════════════════ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <span>Estratégia</span><span>Landing Page</span><span>Captação de Criativo</span><span>Tráfego Pago</span><span>Conteúdo & Redes</span><span>Resultado Mensurável</span><span>Pole Position</span>
+    <span>Estratégia</span><span>Landing Page</span><span>Captação de Criativo</span><span>Tráfego Pago</span><span>Conteúdo & Redes</span><span>Resultado Mensurável</span><span>Pole Position</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ ZOOM REVEAL WRAPPER (manifesto + stages) ════════════════════════════════════════════ -->
+<div class="zoom-reveal" id="zoomReveal">
+
+<!-- ════════════════════════════════════════════ MANIFESTO ════════════════════════════════════════════ -->
+<section class="section" id="manifesto">
+  <div class="float-words" aria-hidden="true">
+    <span class="float-word">Post impulsionado</span>
+    <span class="float-word">Sem traçado</span>
+    <span class="float-word">Sem dado</span>
+    <span class="float-word">Troca de agência</span>
+    <span class="float-word">Improviso</span>
+  </div>
+  <div class="section__inner" style="position:relative;z-index:2">
+    <p class="manifesto__big">A maioria das empresas <s>pisa fundo,</s><br/>mas <em>não sai do lugar.</em></p>
+    <p class="manifesto__lede">Investem em marketing como quem acelera no neutro: barulho, gasto, fumaça, e a posição não muda. A P1 entra na sua corrida com plano, dado e equipe: pra cada real virar metro de avanço.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ STAGES (6 SERVIÇOS) — STICKY STACK 2-COL ════════════════════════════════════════════ -->
+<section class="section stages-section" id="stages">
+  <div class="section__inner stages-grid">
+    <div class="stages-title reveal">
+      <h2 class="section__title">Cada metro <em>conta.</em><br/>Cada volta acelera.</h2>
+      <p class="section__sub">Da largada até a bandeira quadriculada, sua marca passa por 6 etapas. Não é serviço avulso, é grid de largada completo.</p>
+    </div>
+
+    <div class="stack-cards">
+
+      <!-- 01 ESTRATÉGIA -->
+      <article class="stack-card" data-step="01">
+        <div class="stack-card__copy">
+          <div class="stack-card__num">01</div>
+          <h3 class="stack-card__title">Antes da largada,<br/>vem o <em>traçado.</em></h3>
+          <p class="stack-card__text">A P1 não começa pelo criativo. Começa pelo diagnóstico. Estudamos pista, adversário, condição climática e seu carro antes de qualquer aceleração. Estratégia primeiro, performance depois.</p>
+        </div>
+        <div class="stack-card__viz">
+          <div class="viz-grid-bars">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 02 LANDING -->
+      <article class="stack-card" data-step="02">
+        <div class="stack-card__copy">
+          <div class="stack-card__num">02</div>
+          <h3 class="stack-card__title">Sua landing é<br/>a <em>linha de chegada</em> do anúncio.</h3>
+          <p class="stack-card__text">De nada adianta o anúncio perfeito se a página não fecha. Construímos landing pages com foco em conversão: estrutura, copy e design pensados pra transformar visita em lead em segundos.</p>
+        </div>
+        <div class="stack-card__viz">
+          <div class="viz-wire">
+            <span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 03 CAPTAÇÃO -->
+      <article class="stack-card" data-step="03">
+        <div class="stack-card__copy">
+          <div class="stack-card__num">03</div>
+          <h3 class="stack-card__title">Sua marca precisa <em>falar</em><br/>antes de você abrir a boca.</h3>
+          <p class="stack-card__text">Nossa equipe vai até você. Roteirizamos, captamos e produzimos criativos, vídeos e fotos do seu negócio real. Nada de banco de imagem, nada de template. Onboard na sua operação, capturando o que vende.</p>
+        </div>
+        <div class="stack-card__viz">
+          <div class="viz-rec-frame"></div>
+          <div class="viz-rec">REC</div>
+        </div>
+      </article>
+
+      <!-- 04 TRÁFEGO -->
+      <article class="stack-card" data-step="04">
+        <div class="stack-card__copy">
+          <div class="stack-card__num">04</div>
+          <h3 class="stack-card__title">A gente <em>pisa fundo</em><br/>onde tem retorno.</h3>
+          <p class="stack-card__text">Gerenciamos seus anúncios em Meta, Google e outras plataformas com estratégia de performance. Cada real investido é rastreado, cada clique tem destino. Sem achismo, com dado.</p>
+        </div>
+        <div class="stack-card__viz">
+          <div class="viz-kpis">
+            <div><strong data-count="4200">0</strong><span>Imp/dia</span></div>
+            <div><strong data-count="312">0</strong><span>Cliques</span></div>
+            <div><strong data-count="27">0</strong><span>Leads</span></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 05 CONTEÚDO -->
+      <article class="stack-card" data-step="05">
+        <div class="stack-card__copy">
+          <div class="stack-card__num">05</div>
+          <h3 class="stack-card__title">Enquanto você compete,<br/>a gente constrói sua <em>trajetória.</em></h3>
+          <p class="stack-card__text">Time completo de social media, designer e editor cuidando da sua presença orgânica. Sua marca aparece todo dia, com consistência, identidade e ritmo de competição.</p>
+        </div>
+        <div class="stack-card__viz">
+          <div class="viz-feed">
+            <div>IMG</div><div>REEL</div><div>IMG</div>
+            <div>CARR</div><div>IMG</div><div>IMG</div>
+            <div>IMG</div><div>REEL</div><div>CARR</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 06 RESULTADO -->
+      <article class="stack-card" data-step="06">
+        <div class="stack-card__copy">
+          <div class="stack-card__num">06</div>
+          <h3 class="stack-card__title">Os números <em>cruzam</em><br/>a linha de chegada.</h3>
+          <p class="stack-card__text">Leads chegando. Conversão subindo. ROI mensurável. Você acompanha tudo num dashboard claro, e a gente ajusta a estratégia em tempo real conforme a corrida pede.</p>
+        </div>
+        <div class="stack-card__viz">
+          <div class="viz-dash">
+            <div><span>Leads/mês</span><span>184</span></div>
+            <div><span>CPL</span><span>R$ 18,40</span></div>
+            <div><span>ROAS</span><span>4,2x</span></div>
+            <div><span>Conversão</span><span>6,8%</span></div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+</div><!-- /zoom-reveal -->
+
+<!-- ════════════════════════════════════════════ INTERLAGOS + RIDERS NA PISTA ════════════════════════════════════════════ -->
+<section class="track section reveal" id="interlagos">
+  <div class="section__inner">
+    <div class="track__layout">
+      <div class="track__head reveal">
+        <h2 class="section__title">Você no traçado.<br/><em>Elas em volta de você.</em></h2>
+        <p class="section__sub">Instagram, Meta, Google, Notion. As ferramentas correm em órbita da sua estratégia, não o contrário. A P1 é quem dirige.</p>
+      </div>
+
+      <div class="track__stage">
+        <div class="track__svg-wrap" aria-hidden="true">
+          <svg class="track__svg" viewBox="0 0 900 547.2" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <!-- Path invisivel pra motion (sub-path externo apenas) -->
+              <path id="trackMotion" d="M393.45,124.43c-7.7,13.78-12.31,28.11-14.66,43.6-2.83,18.67,1.6,41.93,17.92,50.49,42.11,22.11,84.36,42.28,128.26,60.94,24.88,10.58,50.11,17.07,75.26,26.39l32.56,12.07c16.78,6.22,32.16,14.96,45.67,26.8,13.16,11.52,21.94,26.52,26.87,43.51,9.21,31.8,11.57,64.9,7.35,97.71-1.77,13.74-5.82,26.21-12.68,37.65-6.35,10.58-15.9,17.02-28.09,19.11-14.7,2.52-29.19,3.87-44.32,3.97l-73.63.52-105.99-.67-164.09-.93-77.51-.04-37.65.06c-12.29.02-24.35-2.41-36.11-6.48-15.57-5.39-28.72-14.77-41.03-25.92-46.8-42.39-53.88-111.44-35.24-170.06-8.95-7.48-18.28-11.59-28.43-16.03-14.4-6.3-26.49-19.22-27.81-35.36-1.32-16.13,16.87-37.15,29.64-49.09,16.26-15.21,34.7-25.77,54.3-36.31L451.39,8.79l57.32-4.15,62.07-2.36,44.97-1.14,55.31-.73L713.06,0l26.86.94c23.46,8.7,60.28,28.54,74.58,47.18,33.96,44.24,68.5,95.62,85.5,148.95-.35,27.56-1.52,84.59-16,102.67-12.47,15.58-35.72,17.54-55.53,11.97-33.56-9.44-65.86-20.01-98.73-31.49l-33.45-13.57c-7.45-3.02-13.95-8.26-19.17-14.27-24.84-28.62-36.95-66.23-17.81-100.58l37.09-66.58c5.44-9.76,10.5-18.78,13.39-29.88-8.33-.35-14.6,2.04-21.06,5.58l-37.5,20.54c-38.43,21.04-27.53,21.64-44.47,53.33l-13.63,25.49c-8.76,16.38-41.15,26.49-60.2,25.5-19.02-.99-33.7-14-36.42-32.97-1.39-9.64-.34-19.74,3.07-29.17l8.58-23.75c2.41-6.66,4.61-12.89,5.11-20.35-21.19,4.66-39.22,11.22-58.43,18.35-21.01,7.79-40.71,15.73-61.39,26.53Z"/>
+            </defs>
+
+            <!-- Pista visivel (path completo com furo interno) -->
+            <path class="track__shape" d="M393.45,124.43c-7.7,13.78-12.31,28.11-14.66,43.6-2.83,18.67,1.6,41.93,17.92,50.49,42.11,22.11,84.36,42.28,128.26,60.94,24.88,10.58,50.11,17.07,75.26,26.39l32.56,12.07c16.78,6.22,32.16,14.96,45.67,26.8,13.16,11.52,21.94,26.52,26.87,43.51,9.21,31.8,11.57,64.9,7.35,97.71-1.77,13.74-5.82,26.21-12.68,37.65-6.35,10.58-15.9,17.02-28.09,19.11-14.7,2.52-29.19,3.87-44.32,3.97l-73.63.52-105.99-.67-164.09-.93-77.51-.04-37.65.06c-12.29.02-24.35-2.41-36.11-6.48-15.57-5.39-28.72-14.77-41.03-25.92-46.8-42.39-53.88-111.44-35.24-170.06-8.95-7.48-18.28-11.59-28.43-16.03-14.4-6.3-26.49-19.22-27.81-35.36-1.32-16.13,16.87-37.15,29.64-49.09,16.26-15.21,34.7-25.77,54.3-36.31L451.39,8.79l57.32-4.15,62.07-2.36,44.97-1.14,55.31-.73L713.06,0l26.86.94c23.46,8.7,60.28,28.54,74.58,47.18,33.96,44.24,68.5,95.62,85.5,148.95-.35,27.56-1.52,84.59-16,102.67-12.47,15.58-35.72,17.54-55.53,11.97-33.56-9.44-65.86-20.01-98.73-31.49l-33.45-13.57c-7.45-3.02-13.95-8.26-19.17-14.27-24.84-28.62-36.95-66.23-17.81-100.58l37.09-66.58c5.44-9.76,10.5-18.78,13.39-29.88-8.33-.35-14.6,2.04-21.06,5.58l-37.5,20.54c-38.43,21.04-27.53,21.64-44.47,53.33l-13.63,25.49c-8.76,16.38-41.15,26.49-60.2,25.5-19.02-.99-33.7-14-36.42-32.97-1.39-9.64-.34-19.74,3.07-29.17l8.58-23.75c2.41-6.66,4.61-12.89,5.11-20.35-21.19,4.66-39.22,11.22-58.43,18.35-21.01,7.79-40.71,15.73-61.39,26.53ZM376.17,112.29c2.31-3.97,8.65-7.31,12.55-9.23,32.65-16.04,66.03-28.9,100.9-39.42,8.31-2.51,16.72-4.92,25.35-4.83,13.03.13,21.67,13.17,19.88,25.49-3.52,24.14-16.67,40.88-16.86,62.5-.08,9.07,5.09,16.41,14.5,17.14,5.37.41,12.8.41,17.84-1.71,21.09-8.91,34.39-26.45,42.32-47.12l12.86-27.39c2.08-4.44,7.82-8.46,12.11-11.01l35.74-21.23,25.5-13.61c8.67-4.63,17.86-8.19,28.08-8.47,13.36-.38,25.89,12.56,23.93,26.18-1.52,10.56-6.82,19.99-11.97,29.19l-40.34,72.1c-16.78,29.98-2.22,61.83,21.87,83.89l34.65,14.49c33.7,11.71,66.86,22.6,101.21,32.3,6.87,1.94,14.8,1.97,20.98.47,8.36-2.02,12.87-8.08,14.41-16.05,4.76-24.67,6.36-49.06,7.01-74.49-17.07-51.54-48.79-96.74-80.83-140.08-15.76-17.34-40.51-29.64-62.19-39.55l-72.39-.05-61.32.99-39.29.95-30.59,1.02c-24.84.83-49.25,2.17-74.28,4.72L96.73,223.56c-17.05,9.17-33.5,17.65-47.68,30.68-10.32,8.26-19.13,17.59-25.42,29.15-2.66,4.9-2.34,10.27,1.06,14.79,8.63,11.48,26.72,12.02,43.94,27.34,5.55,4.93,11.14,12.97,8.77,20.66-8.41,27.23-12.08,54.81-7.61,82.83,5.76,36.09,25.93,66.12,57.63,84.28,14.39,8.24,30.62,11.22,47.37,10.92l14.71-.26,148.85.46,278.94.61,24.82-1.02c11.1-.46,22.99-.36,33.37-5.11,6.15-2.81,9.41-11.9,11.62-17.96,10.88-29.91,6.91-78.98-2.71-109.87-5.79-18.61-19.1-32.62-35.88-42.1-13.68-7.74-27.5-13.75-42.53-18.83l-68.29-23.06-22.58-8.82c-43.49-18.63-85.54-38.84-127.46-60.69-42.18-21.99-34.59-85.58-11.48-125.27Z"/>
+
+            <!-- 4 RIDERS (ferramentas correndo no traçado) -->
+            <g class="rider">
+              <circle r="28" class="rider__bg"/>
+              <g transform="translate(-12 -12)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7" x="0" y="0">
+                  <rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white"/>
+                </svg>
+              </g>
+              <animateMotion dur="42s" repeatCount="indefinite" rotate="0"><mpath href="#trackMotion"/></animateMotion>
+            </g>
+
+            <g class="rider">
+              <circle r="28" class="rider__bg"/>
+              <g transform="translate(-12 -12)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white" x="0" y="0">
+                  <path d="M12 5.4c-1.7 0-3 1.4-3.6 3.2-1.1 3-1.7 4.5-2.6 4.5-.7 0-1.2-.6-1.2-1.5 0-1.5 1-3.5 2.5-3.5.7 0 1.2.4 1.7 1l.9-1.6C8.9 7 7.9 6.6 6.9 6.6c-2.6 0-4.5 2.8-4.5 5.5 0 2.2 1.4 3.7 3.4 3.7 1.7 0 3-1.6 4.1-4.6.4-1.1.7-1.8 1-2.3.4-.7.8-.9 1.2-.9.6 0 1.1.5 1.6 1.4l1.2-1.7c-.7-1.4-1.7-2.3-2.9-2.3zm6.5 1.2c-1.7 0-2.7 1.4-3.4 3.5l-.5 1.5c-.4 1.1-.7 1.7-1 2.1-.4.5-.7.8-1.2.8-.5 0-1-.4-1.4-1.1l-1 1.7c.7 1.3 1.7 2.1 2.9 2.1 2.2 0 3.5-2.4 4.4-5.3.4-1.3.6-2.1.9-2.6.3-.6.6-.9 1-.9.7 0 1.3.7 1.3 1.9 0 1.6-.9 3.5-2.4 3.5-.5 0-1-.2-1.5-.7l-.9 1.6c.7.7 1.5 1.1 2.5 1.1 2.5 0 4.1-2.7 4.1-5.5 0-2.4-1.3-3.7-3-3.7z"/>
+                </svg>
+              </g>
+              <animateMotion dur="42s" begin="-10.5s" repeatCount="indefinite" rotate="0"><mpath href="#trackMotion"/></animateMotion>
+            </g>
+
+            <g class="rider">
+              <circle r="28" class="rider__bg"/>
+              <g transform="translate(-12 -12)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white" x="0" y="0">
+                  <path d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4c-.2 1.3-.9 2.3-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3z"/><path d="M12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6C4.7 19.7 8.1 22 12 22z" opacity=".75"/><path d="M6.4 14c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2V7.4H3.1C2.4 8.8 2 10.3 2 12s.4 3.2 1.1 4.6L6.4 14z" opacity=".5"/><path d="M12 5.9c1.5 0 2.8.5 3.9 1.5l2.9-2.9C17 2.9 14.7 2 12 2 8.1 2 4.7 4.3 3.1 7.4L6.4 10c.8-2.3 3-4.1 5.6-4.1z" opacity=".85"/>
+                </svg>
+              </g>
+              <animateMotion dur="42s" begin="-21s" repeatCount="indefinite" rotate="0"><mpath href="#trackMotion"/></animateMotion>
+            </g>
+
+            <g class="rider">
+              <circle r="28" class="rider__bg"/>
+              <g transform="translate(-12 -12)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" x="0" y="0">
+                  <path d="M4.5 5.5l4-1 11 .8c.6 0 1 .5 1 1.1v12.2c0 .6-.4 1-1 1.1l-11.5.8-3-1.6c-.4-.2-.6-.6-.6-1V6.5c0-.5.3-.9.7-1z"/><path d="M7.5 6.5v13M10.5 8.5v8.5l5.5-7v8" stroke-linecap="round"/>
+                </svg>
+              </g>
+              <animateMotion dur="42s" begin="-31.5s" repeatCount="indefinite" rotate="0"><mpath href="#trackMotion"/></animateMotion>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats reveal">
+      <div class="stat"><div class="stat__num"><span data-count="184">0</span></div><div class="stat__lbl">Leads/mês<br/>médios</div></div>
+      <div class="stat"><div class="stat__num"><span data-count="4">0</span>,2x</div><div class="stat__lbl">ROAS<br/>médio</div></div>
+      <div class="stat"><div class="stat__num"><span data-count="6">0</span>,8%</div><div class="stat__lbl">Taxa de<br/>conversão</div></div>
+      <div class="stat"><div class="stat__num"><span data-count="100">0</span>%</div><div class="stat__lbl">Tráfego<br/>rastreado</div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ CTA + FORM ════════════════════════════════════════════ -->
+<section class="cta reveal" id="cta">
+  <h2>Pronto pra largar<br/>em <em>P1?</em></h2>
+  <p>Preenche o grid abaixo. Em até 24h a P1 entra em contato pra desenhar seu traçado.</p>
+
+  <form class="form" id="leadForm" novalidate>
+    <div class="form__head">
+      <h3>Vamos pro grid</h3>
+      <p>Atendimento humano, presencial em Uberlândia e região.</p>
+    </div>
+    <div class="form__grid">
+      <div class="form__fld full"><label for="f-nome">Nome completo</label><input id="f-nome" name="nome" type="text" required autocomplete="name" placeholder="Ex.: Juliana Alves"/></div>
+      <div class="form__fld"><label for="f-tel">DDD + telefone</label><input id="f-tel" name="telefone" type="tel" required placeholder="(34) 99999-0000" inputmode="tel"/></div>
+      <div class="form__fld"><label for="f-email">E-mail</label><input id="f-email" name="email" type="email" required autocomplete="email" placeholder="voce@empresa.com.br"/></div>
+      <div class="form__fld"><label for="f-empresa">Empresa</label><input id="f-empresa" name="empresa" type="text" required placeholder="Nome do negócio"/></div>
+      <div class="form__fld"><label for="f-insta">@ do Instagram</label><input id="f-insta" name="instagram" type="text" placeholder="@suaempresa"/></div>
+      <div class="form__fld full"><label for="f-tam">Tamanho da equipe</label>
+        <select id="f-tam" name="equipe" required>
+          <option value="" disabled selected>Selecione</option>
+          <option value="so-eu">Só eu</option>
+          <option value="2-5">2–5</option>
+          <option value="6-20">6–20</option>
+          <option value="+20">+20</option>
+        </select>
+      </div>
+    </div>
+    <button type="submit" class="form__submit">Quero acelerar com a P1 →</button>
+    <div class="form__thanks">
+      <h4>Largada confirmada.</h4>
+      <p>Recebemos seu contato. Em até 24h a P1 fala com você.</p>
+    </div>
+    <p class="form__note">A P1 atende empresas em Uberlândia e região</p>
+  </form>
+</section>
+
+<footer class="footer">
+  <img class="footer__logo" src="./assets/p1-logo-white.svg" alt="P1 Marketing" />
+  <p>P1 Marketing · Uberlândia, MG · <span>Da pole position à bandeira quadriculada.</span></p>
+</footer>
+
+<script>
+/* ════════════════════════════════════════════ CURSOR LERP ════════════════════════════════════════════ */
+(function(){
+  if (matchMedia('(pointer:coarse)').matches) return;
+  const dot=document.querySelector('.cursor-dot'), ring=document.querySelector('.cursor-ring');
+  let mx=innerWidth/2, my=innerHeight/2, rx=mx, ry=my, dx=mx, dy=my;
+  addEventListener('mousemove', e=>{mx=e.clientX;my=e.clientY},{passive:true});
+  (function loop(){
+    dx+=(mx-dx)*.45; dy+=(my-dy)*.45;
+    rx+=(mx-rx)*.14; ry+=(my-ry)*.14;
+    dot.style.transform=`translate(${dx}px,${dy}px) translate(-50%,-50%)`;
+    ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+    requestAnimationFrame(loop);
+  })();
+  document.querySelectorAll('a,button,input,select,[data-hover]').forEach(el=>{
+    el.addEventListener('mouseenter',()=>ring.classList.add('is-active'));
+    el.addEventListener('mouseleave',()=>ring.classList.remove('is-active'));
+  });
+})();
+
+/* ════════════════════════════════════════════ LOADER ════════════════════════════════════════════ */
+(function(){
+  const loader=document.getElementById('loader');
+  const finish=()=>{loader?.classList.add('is-done'); document.body.classList.remove('is-loading')};
+  setTimeout(finish, 2200);
+  window.addEventListener('load', ()=>setTimeout(finish, 2200));
+})();
+
+/* ════════════════════════════════════════════ HERO FRAME SEQUENCE ════════════════════════════════════════════ */
+(function(){
+  const FRAMES=61; // 61 imagens em /assets/frames/f-001.jpg .. f-061.jpg
+  const canvas=document.getElementById('heroCanvas');
+  const ctx=canvas.getContext('2d');
+  const hero=document.getElementById('hero');
+  const heroPhase=document.getElementById('heroPhase');
+  const images=[];
+  let loadedCount=0;
+  let firstReady=false;
+
+  // Resize canvas pra cobrir o sticky 100vh
+  function resizeCanvas(){
+    const dpr=Math.min(2, window.devicePixelRatio||1);
+    canvas.width=innerWidth*dpr;
+    canvas.height=innerHeight*dpr;
+    canvas.style.width=innerWidth+'px';
+    canvas.style.height=innerHeight+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    drawFrame(currentIdx);
+  }
+  let currentIdx=0;
+  function drawFrame(idx){
+    const img=images[idx];
+    if(!img||!img.complete||!img.naturalWidth) return;
+    const cw=innerWidth, ch=innerHeight;
+    // cover behavior
+    const ir=img.naturalWidth/img.naturalHeight, cr=cw/ch;
+    let dw,dh,dx,dy;
+    if(ir>cr){dh=ch; dw=ch*ir; dx=(cw-dw)/2; dy=0}
+    else {dw=cw; dh=cw/ir; dx=0; dy=(ch-dh)/2}
+    ctx.clearRect(0,0,cw,ch);
+    ctx.drawImage(img,dx,dy,dw,dh);
+  }
+
+  // Preload
+  for(let i=1;i<=FRAMES;i++){
+    const img=new Image();
+    const id=String(i).padStart(3,'0');
+    img.src=`./assets/frames/f-${id}.jpg`;
+    img.onload=()=>{
+      loadedCount++;
+      if(!firstReady){firstReady=true; resizeCanvas()}
+    };
+    images.push(img);
+  }
+
+  // Seções mapeadas:
+  //   0..FRAME_END (75% do scroll do hero) → frames rolam
+  //   FRAME_END..1 (últimos 25% = ~100vh) → frame congelado + zoom-reveal abre do centro
+  const FRAME_END=0.75;
+  const easeInOut=t=>t<.5? 2*t*t : 1-Math.pow(-2*t+2,2)/2;
+  const zoomReveal=document.getElementById('zoomReveal');
+
+  let ticking=false;
+  function update(){
+    const r=hero.getBoundingClientRect();
+    const total=hero.offsetHeight - innerHeight;
+    let p=Math.max(0, Math.min(1, -r.top/total));
+
+    // Frame sequence (0..FRAME_END)
+    const frameP=Math.min(1, p/FRAME_END);
+    const idx=Math.min(FRAMES-1, Math.floor(frameP*FRAMES));
+    if(idx!==currentIdx){currentIdx=idx; drawFrame(idx)}
+
+    // Copy fade (durante o frame seq)
+    if(heroPhase){heroPhase.classList.toggle('is-out', frameP>0.55)}
+
+    // Zoom reveal (FRAME_END..1) — clip-path inset 50% -> 0
+    if(zoomReveal){
+      const zoomP=Math.max(0, Math.min(1, (p-FRAME_END)/(1-FRAME_END)));
+      const inset=(50*(1-easeInOut(zoomP))).toFixed(2);
+      zoomReveal.style.clipPath=`inset(${inset}% ${inset}% ${inset}% ${inset}%)`;
+    }
+    ticking=false;
+  }
+  function onScroll(){if(!ticking){requestAnimationFrame(update); ticking=true}}
+  addEventListener('scroll', onScroll, {passive:true});
+  addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+  update();
+})();
+
+/* ════════════════════════════════════════════ NAV + PROGRESS ════════════════════════════════════════════ */
+(function(){
+  const nav=document.getElementById('nav'), prog=document.getElementById('progress');
+  function tick(){
+    const max=document.documentElement.scrollHeight-innerHeight;
+    const p=max>0?scrollY/max:0;
+    prog.style.transform=`scaleX(${Math.max(0,Math.min(1,p))})`;
+    nav.classList.toggle('is-scrolled', scrollY>60);
+  }
+  let t=false;
+  addEventListener('scroll',()=>{if(!t){requestAnimationFrame(()=>{tick();t=false}); t=true}},{passive:true});
+  tick();
+})();
+
+/* ════════════════════════════════════════════ REVEAL ════════════════════════════════════════════ */
+(function(){
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){e.target.classList.add('is-visible'); obs.unobserve(e.target)}
+    });
+  },{threshold:.12, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+})();
+
+/* ════════════════════════════════════════════ COUNT-UP ════════════════════════════════════════════ */
+(function(){
+  const easeOut=t=>1-Math.pow(1-t,3);
+  function animate(el){
+    const target=parseInt(el.dataset.count,10);
+    const dur=1800, start=performance.now();
+    function tick(now){
+      const t=Math.min(1,(now-start)/dur);
+      const v=Math.round(target*easeOut(t));
+      el.textContent=v.toLocaleString('pt-BR');
+      if(t<1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){animate(e.target); obs.unobserve(e.target)}
+    });
+  },{threshold:.4});
+  document.querySelectorAll('[data-count]').forEach(el=>obs.observe(el));
+})();
+
+/* ════════════════════════════════════════════ FORM ════════════════════════════════════════════ */
+(function(){
+  const f=document.getElementById('leadForm');
+  if(!f) return;
+  // Mascara basica de telefone
+  const tel=f.querySelector('#f-tel');
+  tel?.addEventListener('input',e=>{
+    let v=e.target.value.replace(/\D/g,'').slice(0,11);
+    if(v.length>2) v=`(${v.slice(0,2)}) ${v.slice(2)}`;
+    if(v.length>10) v=v.replace(/(\(\d{2}\) \d{5})(\d)/, '$1-$2');
+    else if(v.length>9) v=v.replace(/(\(\d{2}\) \d{4})(\d)/, '$1-$2');
+    e.target.value=v;
+  });
+  f.addEventListener('submit',e=>{
+    e.preventDefault();
+    if(!f.checkValidity()){f.reportValidity(); return}
+    // TODO: envio real ao backend
+    f.classList.add('is-sent');
+  });
+})();
+
+/* ════════════════════════════════════════════ SMOOTH ANCHORS ════════════════════════════════════════════ */
+(function(){
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      const id=a.getAttribute('href').slice(1);
+      if(!id) return;
+      const t=document.getElementById(id);
+      if(!t) return;
+      e.preventDefault();
+      t.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+})();
+</script>
+</body>
+</html>
