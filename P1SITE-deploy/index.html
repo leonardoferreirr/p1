@@ -48,7 +48,7 @@
    RESET
 ════════════════════════════════════════════════════════════════════════ */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:auto;}
 body{
   background:var(--ink);
   color:var(--bone);
@@ -1047,7 +1047,18 @@ h1,h2,h3,h4{font-family:var(--font-h);color:var(--bone);text-transform:uppercase
   <p>P1 Marketing · Uberlândia, MG · <span>Da pole position à bandeira quadriculada.</span></p>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <script>
+/* ════════════════════════════════════════════ SMOOTH SCROLL (LENIS) ════════════════════════════════════════════ */
+let lenis=null;
+(function(){
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const touch=matchMedia('(pointer:coarse)').matches;
+  if(reduce||touch||typeof Lenis==='undefined') return;
+  lenis=new Lenis({duration:1.15, lerp:0.085, smoothWheel:true, wheelMultiplier:1, touchMultiplier:1.6});
+  (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })();
+})();
+
 /* ════════════════════════════════════════════ CURSOR LERP ════════════════════════════════════════════ */
 (function(){
   if (matchMedia('(pointer:coarse)').matches) return;
@@ -1129,15 +1140,24 @@ h1,h2,h3,h4{font-family:var(--font-h);color:var(--bone);text-transform:uppercase
   const easeInOut=t=>t<.5? 2*t*t : 1-Math.pow(-2*t+2,2)/2;
   const zoomReveal=document.getElementById('zoomReveal');
 
-  let ticking=false;
-  function update(){
+  const reduceMo=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function targetProgress(){
     const r=hero.getBoundingClientRect();
     const total=hero.offsetHeight - innerHeight;
-    let p=Math.max(0, Math.min(1, -r.top/total));
+    return total>0 ? Math.max(0, Math.min(1, -r.top/total)) : 0;
+  }
+  // renderP persegue o scroll com lerp -> reproducao continua e sedosa (sem degraus da roda do mouse)
+  let renderP=targetProgress();
+  let lastZoomInset=-1;
+  function render(){
+    const target=targetProgress();
+    if(reduceMo){ renderP=target; }
+    else { renderP += (target-renderP)*0.14; if(Math.abs(target-renderP)<0.0004) renderP=target; }
+    const p=renderP;
 
     // Frame sequence (0..FRAME_END)
     const frameP=Math.min(1, p/FRAME_END);
-    const idx=Math.min(FRAMES-1, Math.floor(frameP*FRAMES));
+    const idx=Math.min(FRAMES-1, Math.round(frameP*(FRAMES-1)));
     if(idx!==currentIdx){currentIdx=idx; drawFrame(idx)}
 
     // Copy fade (durante o frame seq)
@@ -1146,16 +1166,14 @@ h1,h2,h3,h4{font-family:var(--font-h);color:var(--bone);text-transform:uppercase
     // Zoom reveal (FRAME_END..1) — clip-path inset 50% -> 0
     if(zoomReveal){
       const zoomP=Math.max(0, Math.min(1, (p-FRAME_END)/(1-FRAME_END)));
-      const inset=(50*(1-easeInOut(zoomP))).toFixed(2);
-      zoomReveal.style.clipPath=`inset(${inset}% ${inset}% ${inset}% ${inset}%)`;
+      const inset=+(50*(1-easeInOut(zoomP))).toFixed(2);
+      if(inset!==lastZoomInset){lastZoomInset=inset; zoomReveal.style.clipPath=`inset(${inset}% ${inset}% ${inset}% ${inset}%)`}
     }
-    ticking=false;
+    requestAnimationFrame(render);
   }
-  function onScroll(){if(!ticking){requestAnimationFrame(update); ticking=true}}
-  addEventListener('scroll', onScroll, {passive:true});
   addEventListener('resize', resizeCanvas);
   resizeCanvas();
-  update();
+  requestAnimationFrame(render);
 })();
 
 /* ════════════════════════════════════════════ NAV + PROGRESS ════════════════════════════════════════════ */
@@ -1234,7 +1252,8 @@ h1,h2,h3,h4{font-family:var(--font-h);color:var(--bone);text-transform:uppercase
       const t=document.getElementById(id);
       if(!t) return;
       e.preventDefault();
-      t.scrollIntoView({behavior:'smooth', block:'start'});
+      if(lenis){ lenis.scrollTo(t, {offset:-10, duration:1.2}); }
+      else { t.scrollIntoView({behavior:'smooth', block:'start'}); }
     });
   });
 })();
